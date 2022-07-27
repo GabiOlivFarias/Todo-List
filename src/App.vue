@@ -21,7 +21,13 @@
       <hr>
       <li class="lista-tarefa-itens" v-for="digitado in listaDeTarefas">
         <div class="painel">
-          {{ digitado }}
+          <h3>{{ digitado }} </h3>
+          <input type="text" class="filtro" v-on:keyup.enter="storeCheckbox" v-model="novoCheckbox" placeholder="Novo checkbox">
+          <ul class="lista-checkbox">
+            <li class="itens" v-for="checkbox in listaDeCheckbox">
+            <p>{{ checkbox }}</p>
+            </li>
+          </ul>          
         </div>
         
       </li>
@@ -43,20 +49,29 @@ export default {
         titulo:'logo Jera',
       },
       tarefas: [],
-      digitado: ''
+      digitado: '',
+      checkbox: [],
+      novoCheckbox: ''
       }
     },
     computed: {// capturou o input
       listaDeTarefas() {
           return this.tarefas
+      },
+      listaDeCheckbox() {
+        return this.checkbox
       }
     },
     methods: {//dispara o click
       storeTodo() {
         this.tarefas.push(this.digitado)
         this.digitado = ''
-        
+      },
+      storeCheckbox() {
+        this.checkbox.push(this.novoCheckbox)
+        this.novoCheckbox = ''   
       }
+    
     }
     }
 </script>
@@ -126,4 +141,14 @@ hr{
 .lista-tarefa{
   list-style: none;
 }
+.add-tarefa{
+  display: inline;
+  border-radius: 100px;
+  padding: 10px;
+  background-image: url("../media/icons8-adicionar-48.png ");
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 </style>
