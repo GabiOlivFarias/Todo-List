@@ -10,7 +10,7 @@
   
 <!--pegando as tarefas digitadas no input-->
     <div class="input">
-      <input type="text" class="filtro" v-model="digitado" placeholder="Adicione uma tarefa">
+      <input type="text" class="filtro" v-model="digitado" placeholder="Adicione uma  nova lista">
       <button class="botao" @click="storeTodo"> </button>
     </div>
 
@@ -20,7 +20,10 @@
       <h2>Tarefas:</h2>
       <hr>
       <li class="lista-tarefa-itens" v-for="digitado in listaDeTarefas">
-        <input type="checkbox"> {{ digitado }}
+        <div class="painel">
+          {{ digitado }}
+        </div>
+        
       </li>
     </ul>
   </div>
@@ -29,7 +32,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+//import Vue from 'vue'
 
 export default {
   data() {
@@ -43,14 +46,16 @@ export default {
       digitado: ''
       }
     },
-    computed: {
+    computed: {// capturou o input
       listaDeTarefas() {
           return this.tarefas
       }
     },
-    methods: {
+    methods: {//dispara o click
       storeTodo() {
         this.tarefas.push(this.digitado)
+        this.digitado = ''
+        
       }
     }
     }
