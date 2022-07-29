@@ -10,22 +10,37 @@
   
 <!--pegando as tarefas digitadas no input-->
     <div class="input">
-      <input type="text" class="filtro" v-model="digitado" placeholder="Adicione uma  nova lista">
+      <input type="text" class="filtro" v-model="lista" placeholder="Adicione uma nova lista">
       <button class="botao" @click="storeTodo"> </button>
+       <button class="menu" @click="todasListas = !todasListas"> </button> <!--mudar nome depois, se não trava-->
+
+
+       <div class="tarefas" v-show="todasListas">
+        <ul>
+          <h2>Minhas Listas</h2>
+          <li class="itens" v-for="lista in conjuntoDelistas" :key="lista.id">
+          <p> {{ lista }}</p>
+          </li>
+        </ul>
+       </div>
     </div>
 
 
     <div class="tarefas">
     <ul class="lista-tarefa">
-      <h2>Tarefas:</h2>
+      <h1>Lista de tarefas:</h1>
       <hr>
-      <li class="lista-tarefa-itens" v-for="digitado in listaDeTarefas">
+      <li class="lista-tarefa-itens" v-for="lista in listaDeTarefas" :key="lista.id">
         <div class="painel">
-          <h3>{{ digitado }} </h3>
-          <input type="text" class="filtro" v-on:keyup.enter="storeCheckbox" v-model="novoCheckbox" placeholder="Novo checkbox">
+          <h2>{{ lista }} </h2>
+          <input type="text" class="filtro" v-on:keyup.enter="storeCheckbox" v-model="novoCheckbox" :key="checkbox.id" placeholder="Nova tarefa">
           <ul class="lista-checkbox">
-            <li class="itens" v-for="checkbox in listaDeCheckbox">
-            <p>{{ checkbox }}</p>
+            <li class="itens" v-for="checkbox in listaDeCheckbox" :key="checkbox.id">
+            <p> <input type="checkbox" id="C1" /><label for="C1">{{ checkbox }} </label> 
+            <button class="btn-apagar"> </button> <!--apagar item-->
+            <button class="btn-editar"> </button> <!--editar item-->
+            </p>
+            <!--no label foi aplicado com css a linha ao riscar o item-->
             </li>
           </ul>          
         </div>
@@ -48,30 +63,37 @@ export default {
         url: 'https://jera.com.br/images/logo-facebook.png',
         titulo:'logo Jera',
       },
-      tarefas: [],
-      digitado: '',
+      conjuntoDelistas: [],
+      lista: '',
       checkbox: [],
-      novoCheckbox: ''
+      novoCheckbox: '',
+
+      todasListas: false//aqui faz o menu esconder no começo
       }
     },
     computed: {// capturou o input
       listaDeTarefas() {
-          return this.tarefas
+          return this.conjuntoDelistas
       },
       listaDeCheckbox() {
         return this.checkbox
+      },
+      Todaslistas() {
+        return this.minhaslistas
       }
     },
     methods: {//dispara o click
       storeTodo() {
-        this.tarefas.push(this.digitado)
-        this.digitado = ''
+        this.conjuntoDelistas.push(this.lista)
+        this.lista = ''
       },
       storeCheckbox() {
         this.checkbox.push(this.novoCheckbox)
         this.novoCheckbox = ''   
+      },
+      storelistas() {
+        
       }
-    
     }
     }
 </script>
@@ -104,7 +126,7 @@ input::placeholder{
 }
 .filtro{
   width: 60%;
-  margin: auto 0 auto 200px;
+  margin: auto 0 auto 150px;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -112,7 +134,7 @@ input::placeholder{
   padding: 5px;
   background-color: #3f9140b4;
 }
-.botao{
+.botao, .menu{
   border-radius: 100px;
   padding: 15px;
   background-image: url("../media/icons8-adicionar-48.png ");
@@ -120,7 +142,10 @@ input::placeholder{
   background-position: center;
   background-repeat: no-repeat;
 }
-.botao:hover{
+.menu{
+  background-image: url("../media/icons8-open-menu-48.png");
+}
+.botao:hover, .menu:hover{
   background-color: #55b86c;
 }
 .tarefas{
@@ -129,16 +154,16 @@ input::placeholder{
   margin: 10px auto;
   border-radius: 10px;
   box-shadow: 3px 3px 3px black;
-  width: 700px;
+  max-width: 700px;
 }
-ul h2{
+ul h2, h1{
   text-align: center;
   margin-bottom: 0;
 }
 hr{
   margin-top: 0;
 }
-.lista-tarefa{
+ul{
   list-style: none;
 }
 .add-tarefa{
@@ -150,5 +175,22 @@ hr{
   background-position: center;
   background-repeat: no-repeat;
 }
-
+/* aparencia de risco no item 'tarefa' */
+input[type=checkbox]:checked ~ label {
+   text-decoration: line-through;
+}
+.btn-apagar, .btn-editar{
+  border-radius: 100px;
+  padding: 10px;
+  background-image: url("../media/icons8-excluir-48.png");
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.btn-editar{
+  background-image: url("../media/icons8-lápis-48.png");
+}
+p{
+  font-size: 18pt;
+}
 </style>
