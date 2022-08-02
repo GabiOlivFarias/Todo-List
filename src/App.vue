@@ -5,59 +5,43 @@
     <!--<h1> <img src="{{ foto.url }}" alt="{{ foto.titulo }}"></h1>
     somente com a linha acima não dá, tem q usar 'v-bind'
     v-bind:src="foto.url" ou só ':src="foto.url'-->
-
   </div>
-  
 <!--pegando as tarefas digitadas no input-->
-    <div class="input">
-      <input type="text" class="filtro" v-model="lista" placeholder="Adicione uma nova lista">
-      <button class="botao" @click="storeTodo"> </button>
-       <button class="menu" @click="todasListas = !todasListas"> </button> <!--mudar nome depois, se não trava-->
+  <div class="input">
+    <input type="text" class="filtro" v-model="lista" placeholder="Adicione uma nova lista">
+    <button class="botao" @click="storeTodo"> </button>
+      <button class="menu" @click="todasListas = !todasListas"> </button> <!--mudar nome depois, se não trava-->
 
-
-       <div class="tarefas" v-show="todasListas">
-        <ul>
-          <h2>Minhas Listas</h2>
-          <li class="itens" v-for="lista in conjuntoDelistas" :key="lista.id">
-          <p> {{ lista }}</p>
-          </li>
-        </ul>
-       </div>
-    </div>
-
+      <div class="tarefas" v-show="todasListas">
+      <ul>
+        <h2>Minhas Listas</h2>
+        <li class="itens" v-for="lista in conjuntoDelistas" :key="lista.id">
+        <p> {{ lista }}</p>
+        </li>
+      </ul>
+      </div>
+  </div>
 
     <div class="tarefas">
-    <ul class="lista-tarefa">
-      <h1>Lista de tarefas:</h1>
-      <hr>
-      <li class="lista-tarefa-itens" v-for="lista in listaDeTarefas" :key="lista.id">
-        <div class="painel">
-          <h2>{{ lista }} </h2>
-          <input type="text" class="filtro" v-on:keyup.enter="storeCheckbox" v-model="novoCheckbox" :key="checkbox.id" placeholder="Nova tarefa">
-          <ul class="lista-checkbox">
-            <li class="itens" v-for="checkbox in listaDeCheckbox" :key="checkbox.id">
-            <p> <input type="checkbox" id="C1" /><label for="C1">{{ checkbox }} </label> 
-            <button class="btn-apagar"> </button> <!--apagar item-->
-            <button class="btn-editar"> </button> <!--editar item-->
-            </p>
-            <!--no label foi aplicado com css a linha ao riscar o item-->
-            </li>
-          </ul>          
-        </div>
-        
-      </li>
-    </ul>
-  </div>
+      <ul class="lista-tarefa">
+        <h1>Lista de tarefas:</h1>
+        <hr>
+        <!-- <li class="lista-tarefa-itens" v-for="lista in conjuntoDelistas" :key="lista.id"></li> -->
+        <Lista v-for="lista in conjuntoDelistas" :key="lista.id" :titulo="lista"/> 
+      </ul>
+    </div>
 
 </div>
 </template>
 
 <script>
-//import Vue from 'vue'
+import Lista from './components/Lista.vue'
 
 export default {
+  components: {
+    Lista
+  },
   data() {
- 
     return{
       foto: {
         url: 'https://jera.com.br/images/logo-facebook.png',
@@ -65,8 +49,6 @@ export default {
       },
       conjuntoDelistas: [],
       lista: '',
-      checkbox: [],
-      novoCheckbox: '',
 
       todasListas: false//aqui faz o menu esconder no começo
       }
@@ -74,25 +56,12 @@ export default {
     computed: {// capturou o input
       listaDeTarefas() {
           return this.conjuntoDelistas
-      },
-      listaDeCheckbox() {
-        return this.checkbox
-      },
-      Todaslistas() {
-        return this.minhaslistas
       }
     },
     methods: {//dispara o click
       storeTodo() {
         this.conjuntoDelistas.push(this.lista)
         this.lista = ''
-      },
-      storeCheckbox() {
-        this.checkbox.push(this.novoCheckbox)
-        this.novoCheckbox = ''   
-      },
-      storelistas() {
-        
       }
     }
     }
