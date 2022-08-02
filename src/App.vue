@@ -148,16 +148,13 @@ ul{
 input[type=checkbox]:checked ~ label {
    text-decoration: line-through;
 }
-.btn-apagar, .btn-editar{
+.btn-apagar{
   border-radius: 100px;
   padding: 10px;
   background-image: url("../media/icons8-excluir-48.png");
   background-size: 20px;
   background-position: center;
   background-repeat: no-repeat;
-}
-.btn-editar{
-  background-image: url("../media/icons8-lápis-48.png");
 }
 p{
   font-size: 18pt;
