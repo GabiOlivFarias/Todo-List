@@ -69,7 +69,7 @@ export default {
 
 <style>
 body{
-  background-color: rgba(0, 0, 0, 0.699);
+  background-color: rgba(236, 14, 14, 0.699);
 }
 .corpo{
   font-family: Helvetica, sans-serif;
