@@ -147,6 +147,7 @@ ul{
 /* aparencia de risco no item 'tarefa' */
 input[type=checkbox]:checked ~ label {
    text-decoration: line-through;
+   color: rgb(85, 85, 85);
 }
 .btn-apagar{
   border-radius: 100px;

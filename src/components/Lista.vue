@@ -1,11 +1,11 @@
 <template>
 <div class="painel">
     <h2>{{ titulo }} </h2>
-    <input type="text" class="filtro" v-on:keyup.enter="storeCheckbox" v-model="novoCheckbox" :key="checkbox.id" placeholder="Nova tarefa">
-    <ul class="lista-checkbox">
-        <li class="itens" v-for="checkbox in listaDeCheckbox" :key="checkbox.id">
-        <p> <input type="checkbox" id="C1" /><label for="C1">{{ checkbox }} </label> 
-        <button class="btn-apagar" @click="apagaTarefa"> </button> <!--apagar item-->
+    <input type="text" class="filtro" v-on:keyup.enter="storetarefa" v-model="novoTarefa" :key="tarefa.id" placeholder="Nova tarefa">
+    <ul class="lista-tarefa">
+        <li class="itens" v-for="tarefa in listaDetarefa" :key="tarefa">
+        <p> <input type="checkbox" id="C1" /><label for="C1">{{ tarefa }} 
+        <button class="btn-apagar" @click="apagaTarefa(tarefa)"> </button> </label> <!--apagar item-->
         </p>
         <!--no label foi aplicado com css a linha ao riscar o item-->
         </li>
@@ -21,28 +21,29 @@ export default {
     },
     data() {
         return{
-            checkbox: [],
-            novoCheckbox: '',
+            tarefa: [],
+            novoTarefa: '',
         }
   },
     computed: {// capturou o input
-      listaDeCheckbox() {
-        return this.checkbox 
+      listaDetarefa() {
+        return this.tarefa 
       },
     },
     methods: {//dispara o click
 
-    setCheckbox(valor) {
-        this.novoCheckbox = valor
+    setTarefa(valor) { //cria um valor do campo nova tarefa
+        this.novoTarefa = valor
     },
-    storeCheckbox() {
-        console.log(this.novoCheckbox)
-        this.checkbox.push(this.novoCheckbox)
-        this.setCheckbox('')
+    storetarefa() {
+        this.tarefa.push(this.novoTarefa)
+        this.setTarefa('') //define o valor como vazio após o enter
     },
-    apagaTarefa() {
-        console.log(this.novoCheckbox)
-        this.checkbox.splice(this.novoCheckbox,1)
+    
+    apagaTarefa(tarefa) {
+        console.log(tarefa)
+        this.tarefa.splice(this.tarefa.indexOf(tarefa),1)
+
     }
     }
 }
