@@ -103,6 +103,17 @@ export default {
         // se o campo estiver vazio, não filtramos, retornamos a lista
         input.style.backgroundColor="#f8aaaad5"
       }
+    },
+    excluirLista(filtro) {
+      if (this.filtro) {
+        console.log(filtro)
+        let exp = new RegExp(this.filtro.trim(), 'i'); // 'i' = tanto faz maiúsculo ou minúsculo e RegExp
+                                              // varre as listas procurando a que tenha o texto do filtro
+                                                                  // .trim faz ele ignorar espaços vazios.
+        this.conjuntoDelistas.splice(this.conjuntoDelistas.indexOf(filtro), 1);
+      } else {
+        // se o campo estiver vazio, não filtramos, retornamos a lista
+      }
     }
   }
 }
