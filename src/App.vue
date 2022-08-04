@@ -1,37 +1,45 @@
 <template>
-<div>
-  <div class="corpo">
-    <h1 class="centraliza"> <img class="logo" :src="foto.url" :alt="foto.titulo"> </h1>
-    <!--<h1> <img src="{{ foto.url }}" alt="{{ foto.titulo }}"></h1>
+  <div>
+    <div class="corpo">
+      <h1 class="centraliza"> <img class="logo" src="./assets/logoJera.png" :alt="foto.titulo"> </h1>
+      <!--<h1> <img src="{{ foto.url }}" alt="{{ foto.titulo }}"></h1>
     somente com a linha acima não dá, tem q usar 'v-bind'
     v-bind:src="foto.url" ou só ':src="foto.url'-->
-  </div>
-<!--pegando as tarefas digitadas no input-->
-  <div class="input">
-    <input type="text" class="filtro" v-model="lista" placeholder="Adicione uma nova lista">
-    <button class="botao" @click="storeTodo"> </button>
-      <button class="menu" @click="todasListas = !todasListas"> </button> <!--mudar nome depois, se não trava-->
+    </div>
+
+    <!--pegando as tarefas digitadas no input-->
+    <div class="input-lista">
+      <input type="text" class="adicionaLista" v-model="lista" placeholder="Adicione uma nova lista">
+      <button class="botao" @click="storeTodo"> </button>
+      <button class="menu" @click="todasListas = !todasListas"> </button>
+      <!--mudar nome depois, se não trava-->
 
       <div class="tarefas" v-show="todasListas">
-      <ul>
-        <h2>Minhas Listas</h2>
-        <li class="itens" v-for="lista in conjuntoDelistas" :key="lista.id">
-        <p> {{ lista }}</p>
-        </li>
-      </ul>
+        <ul>
+          <h2>Minhas Listas</h2>
+
+          <div class="excluirListas">
+            <input type="search" class="filtraLista" v-model="filtro" placeholder="Lista que deseja excluir">
+            <button class="btn-excluirLista" @click="excluirLista(filtro)">Excluir lista</button>
+          </div>
+
+          <li class="itens" v-for="lista in conjuntoDelistas" :key="lista.id">
+            <p>{{ lista }}</p>
+          </li>
+        </ul>
       </div>
-  </div>
+    </div>
 
     <div class="tarefas">
       <ul class="lista-tarefa">
-        <h1>Lista de tarefas:</h1>
+        <h1>Lista de tarefas</h1>
         <hr>
         <!-- <li class="lista-tarefa-itens" v-for="lista in conjuntoDelistas" :key="lista.id"></li> -->
-        <Lista v-for="lista in conjuntoDelistas" :key="lista.id" :titulo="lista"/> 
+        <Lista v-for="lista in conjuntoDelistas" :key="lista.id" :titulo="lista" />
       </ul>
     </div>
 
-</div>
+  </div>
 </template>
 
 <script>
@@ -42,68 +50,120 @@ export default {
     Lista
   },
   data() {
-    return{
+    return {
       foto: {
         url: 'https://jera.com.br/images/logo-facebook.png',
-        titulo:'logo Jera',
+        titulo: 'logo Jera',
       },
       conjuntoDelistas: [],
       lista: '',
+      filtro: '',
 
       todasListas: false//aqui faz o menu esconder no começo
-      }
-    },
-    computed: {// capturou o input
-      listaDeTarefas() {
-          return this.conjuntoDelistas
-      }
-    },
-    methods: {//dispara o click
-      storeTodo() {
+    }
+  },
+  computed: {// capturou o input
+    listaDeTarefas() {
+      return this.conjuntoDelistas
+    }
+  },
+  methods: {//dispara o click
+    storeTodo() {
+      if (this.lista == '') { // se lista estiver vazia, não inserir
+
+      } else {
         this.conjuntoDelistas.push(this.lista)
         this.lista = ''
       }
+    },
+    excluirLista(filtro) {
+      if (this.filtro) {
+        console.log(filtro)
+        let exp = new RegExp(this.filtro.trim(), 'i'); // 'i' = tanto faz maiúsculo ou minúsculo e RegExp
+                                              // varre as listas procurando a que tenha o texto do filtro
+                                                                  // .trim faz ele ignorar espaços vazios.
+        this.conjuntoDelistas.splice(this.conjuntoDelistas.indexOf(filtro), 1);
+      } else {
+        // se o campo estiver vazio, não filtramos, retornamos a lista
+      }
     }
-    }
+  }
+}
 </script>
 
 <style>
-body{
-  background-color: rgba(0, 0, 0, 0.699);
+body {
+  background-color: #1B494B;
 }
-.corpo{
+
+p {
+  font-size: 18pt;
+}
+
+ul h2, h1 {
+  text-align: center;
+  margin-bottom: 0;
+  color:#0f3133;
+}
+
+hr {
+  margin-top: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+input::placeholder {
+  color: white;
+}
+
+.corpo {
   font-family: Helvetica, sans-serif;
   width: 96%;
   margin: auto;
 }
-.centraliza{
+
+.centraliza {
   text-align: center;
 }
-.logo{
-  width: 20%;
+
+.logo {
+  width: 15%;
+  image-rendering: pixelated;
+  float: right;
 }
-.input{
-  background-color: #3f914079;
-  padding: 20px;
+
+.input-lista {
+  background-color: #1B494B;
+  padding: 5px;
   margin: auto;
   border-radius: 10px;
-  box-shadow: 3px 3px 3px black;
-  width: 700px;
+  box-shadow: 2px 6px 2px 2px rgba(0, 0, 0, 0.541);
+  width: 60%;
 }
-input::placeholder{
-  color: white;
-}
-.filtro{
+
+.adicionaLista {
   width: 60%;
   margin: auto 0 auto 150px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
+  border: none;
   border-radius: 5px;
   padding: 5px;
-  background-color: #3f9140b4;
+  box-shadow: 2px 2ppx 2px rgba(0, 0, 0, 0.541);
+  background-color: #93c59494;
+  color: white;
 }
-.botao, .menu{
+
+.filtraLista {
+  width:fit-content;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.541);
+  background-color: #93c59494;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px #1B494B;
+}
+
+.botao, .menu {
   border-radius: 100px;
   padding: 15px;
   background-image: url("../media/icons8-adicionar-48.png ");
@@ -111,13 +171,16 @@ input::placeholder{
   background-position: center;
   background-repeat: no-repeat;
 }
-.menu{
+
+.menu {
   background-image: url("../media/icons8-open-menu-48.png");
 }
-.botao:hover, .menu:hover{
-  background-color: #55b86c;
+
+.botao:hover, .menu:hover {
+  background-color: #61c578;
 }
-.tarefas{
+
+.tarefas {
   background-color: #93c594cc;
   padding: 20px;
   margin: 10px auto;
@@ -125,17 +188,8 @@ input::placeholder{
   box-shadow: 3px 3px 3px black;
   max-width: 700px;
 }
-ul h2, h1{
-  text-align: center;
-  margin-bottom: 0;
-}
-hr{
-  margin-top: 0;
-}
-ul{
-  list-style: none;
-}
-.add-tarefa{
+
+.add-tarefa {
   display: inline;
   border-radius: 100px;
   padding: 10px;
@@ -144,20 +198,43 @@ ul{
   background-position: center;
   background-repeat: no-repeat;
 }
+
 /* aparencia de risco no item 'tarefa' */
-input[type=checkbox]:checked ~ label {
-   text-decoration: line-through;
-   color: rgb(85, 85, 85);
+input[type=checkbox]:checked~label {
+  text-decoration: line-through;
+  color: rgb(85, 85, 85);
 }
-.btn-apagar{
+
+.excluirListas {
+  float: right;
+  flex-direction: column;
+}
+
+.btn-apagarTarefa {
+    border-radius: 100px;
+    padding: 10px;
+    background-image: url("../media/icons8-excluir-48.png");
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.btn-apagarTarefa:hover {
+  background-color: rgb(1, 153, 95);
+}
+
+.btn-excluirLista {
+  margin-top: 5px;
   border-radius: 100px;
-  padding: 10px;
-  background-image: url("../media/icons8-excluir-48.png");
-  background-size: 20px;
-  background-position: center;
-  background-repeat: no-repeat;
+  font-family: Verdana, sans-serif;
+  border-color: #0f3133;
+  background-color: #93c594cc;
+  color: white;
+  width: fit-content;
 }
-p{
-  font-size: 18pt;
+
+.btn-excluirLista:hover {
+  background-color: #0f3133;
 }
+
 </style>
